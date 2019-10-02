@@ -102,11 +102,13 @@ class DrawingWidgetState extends State<DrawingWidget> {
 
           io.Socket.connect("10.0.2.2", 1337).then((io.Socket socket) {
             socket.writeln(json);
-            debugPrint(json);
+//            debugPrint(json);
           });
 
           setState(() {
             rec = new ui.PictureRecorder();
+
+            byteData = null;
 
             canvas = new Canvas(rec);
 
