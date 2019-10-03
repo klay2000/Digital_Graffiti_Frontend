@@ -43,10 +43,13 @@ class DrawingWidgetState extends State<DrawingWidget> {
   ByteData byteData;
   List<Paint> paints = new List();
   Paint currentPaint = new Paint()
+    ..color = Colors.blue
     ..strokeWidth = 5
     ..strokeCap = StrokeCap.round;
 
-  static const double BUTTON_SIZE = 50;
+  HSVColor HSV = HSVColor.fromColor(Colors.blue);
+
+  static const double BUTTON_SIZE = 75;
 
   @override
   Widget build(BuildContext context) {
@@ -123,33 +126,86 @@ class DrawingWidgetState extends State<DrawingWidget> {
           BottomButton(
               size: BUTTON_SIZE,
               onPressed: () => setState(() {
-                    currentPaint.color = Colors.black;
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(builder: (context, setState) {
+                            return AlertDialog(
+                              title: Text("Color Picker"),
+                              content: Row(
+                                children: <Widget>[
+                                  Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                            padding: EdgeInsets.only(top: 10)),
+                                        Text("Hue"),
+                                        Slider(
+                                            onChanged: (newHue) {
+                                              setState(() {
+                                                HSV = HSV.withHue(newHue);
+
+                                                currentPaint.color =
+                                                    HSV.toColor();
+                                              });
+                                            },
+                                            max: 360.0,
+                                            min: 0.0,
+                                            value: HSV.hue),
+                                        Text("Saturation"),
+                                        Slider(
+                                          onChanged: (newSat) {
+                                            setState(() {
+                                              HSV = HSV.withSaturation(newSat);
+
+                                              currentPaint.color =
+                                                  HSV.toColor();
+                                            });
+                                          },
+                                          max: 1.0,
+                                          min: 0.0,
+                                          value: HSV.saturation,
+                                        ),
+                                        Text("Value"),
+                                        Slider(
+                                          onChanged: (newVal) {
+                                            setState(() {
+                                              HSV = HSV.withValue(newVal);
+
+                                              currentPaint.color =
+                                                  HSV.toColor();
+                                            });
+                                          },
+                                          max: 1.0,
+                                          min: 0,
+                                          value: HSV.value,
+                                        )
+                                      ]),
+                                  Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.brightness_1,
+                                          size: 75,
+                                          color: currentPaint.color,
+                                        )
+                                      ])
+                                ],
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: new Text("Done"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                        });
                   }),
-              fillColor: Colors.black),
-          BottomButton(
-              size: BUTTON_SIZE,
-              onPressed: () => setState(() {
-                    currentPaint.color = Colors.white;
-                  }),
-              fillColor: Colors.white),
-          BottomButton(
-              size: BUTTON_SIZE,
-              onPressed: () => setState(() {
-                    currentPaint.color = Colors.red;
-                  }),
-              fillColor: Colors.red),
-          BottomButton(
-              size: BUTTON_SIZE,
-              onPressed: () => setState(() {
-                    currentPaint.color = Colors.green;
-                  }),
-              fillColor: Colors.green),
-          BottomButton(
-              size: BUTTON_SIZE,
-              onPressed: () => setState(() {
-                    currentPaint.color = Colors.blue;
-                  }),
-              fillColor: Colors.blue),
+              fillColor: Colors.white,
+              icon: Icons.brush),
           BottomButton(
               size: BUTTON_SIZE,
               onPressed: () => setState(() {
@@ -165,8 +221,9 @@ class DrawingWidgetState extends State<DrawingWidget> {
                         pow(currentPaint.strokeWidth, 1 / 1.1);
                   }),
               fillColor: Colors.white,
-              icon: Icons.remove)
+              icon: Icons.remove),
         ],
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
       ),
     );
   }
