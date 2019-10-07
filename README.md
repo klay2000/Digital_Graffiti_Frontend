@@ -1,16 +1,5 @@
-# digital_graffiti
-
-DigitalGraffiti for Hackathon
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#Digital Graffiti Frontend
+This repo contains the frontend for a project I made in a team with two other people initially for
+the Grizzhacks 4 hackathon. Digital Graffiti is an art installation/digital corkboard that allows
+you to post drawings to a large screen from a mobile devise. This frontend is written in Dart using
+Flutter. The backend, which can be found on my Github page, was written in Kotlin.
